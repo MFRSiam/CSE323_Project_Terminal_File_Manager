@@ -18,6 +18,8 @@ public:
     void SCreateANewFile(const std::string filename);
     void uicopyfile(const std::string &fileName, const std::string &newPath);
     void uiEditAFile(const std::string &oldFilename, const std::string& newFilename);
+    void SDeleteAFile(const std::string deletefile);
+    void SDeleteAFolder(const std::string deletefolder);
 
     void SCreateNewFolder(const std::string foldername);
 

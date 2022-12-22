@@ -68,5 +68,29 @@ void UserInterface::uiEditAFile(const std::string &oldFilename, const std::strin
     }
 }
 
+void UserInterface::SDeleteAFile(const std::string deletefile) {
+    Message ret = mainFM->DeleteAFile(deletefile);
+    if(ret.field){
+        fmt::print(fg(fmt::color::red),"Message: {}\r",ret.message);
+    }else{
+        fmt::print(fg(fmt::color::blue),"Message: {}\r",ret.message);
+        std::string filename;
+        if(takeInputs(filename)){
+            this->SDeleteAFile(filename);
+        }
+    }
+}
 
+void UserInterface::SDeleteAFolder(const std::string deletefolder) {
+    Message ret = mainFM->DeleteAFolder(deletefolder);
+    if(ret.field){
+        fmt::print(fg(fmt::color::red),"Message: {}\rd",ret.message);
+    }else{
+        fmt::print(fg(fmt::color::green),"Message: {}\rd",ret.message);
+        std::string foldername;
+        if(takeInputs(foldername)){
+            this->SDeleteAFolder(foldername);
+        }
+    }
+}
 
