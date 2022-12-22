@@ -29,6 +29,9 @@ int main(int argc, char **argv) {
         else if(arguments[1] == "-cy"){
             ui.uicopyfile(arguments[2], arguments[3]);
         }
+        else if(arguments[1] == "-e"){
+            ui.uiEditAFile(arguments[2], arguments[3]);
+        }
 
     }
 

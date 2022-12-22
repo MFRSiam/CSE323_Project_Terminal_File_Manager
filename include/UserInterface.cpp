@@ -49,12 +49,24 @@ bool UserInterface::takeInputs(std::string &input) {
 
 void UserInterface::uicopyfile(const std::string &fileName, const std::string &newPath)
 {
-    Message ret = mainFM.CopyFile(fileName, newPath); 
+    Message ret = mainFM->CopyFile(fileName, newPath); 
     if(ret.field){
         fmt::print( fg(fmt::color::green), "Message: {}\n", ret.message);
     }else{
         fmt::print(fg(fmt::color::red), "Message: {}\n" , ret.message);
     }
 }
+
+void UserInterface::uiEditAFile(const std::string &oldFilename, const std::string& newFilename)
+{
+
+   Message ret = mainFM->EditAFile(oldFilename, newFilename); 
+    if(ret.field){
+        fmt::print( fg(fmt::color::green), "Message: {}\n", ret.message);
+    }else{
+        fmt::print(fg(fmt::color::red), "Message: {}\n" , ret.message);
+    }
+}
+
 
 

@@ -115,11 +115,37 @@ Message &FileManager::DeleteAFolder(const std::string &foldername) {
 
 
 Message &FileManager::EditAFile(const std::string &oldFilename, const std::string& newFilename) {
+    
+    Message *result = new Message();
+
+    std::string oldfiledir = this->currentDir + "/" +oldFilename;
+    const char *arroldfiledir = oldfiledir.c_str();
+
+    std::string newfiledir = this->currentDir + "/" + newFilename; 
+    const char *arrnewfiledir = newfiledir.c_str();
+
+    int rel = rename(arroldfiledir, arrnewfiledir);
+
+    if(rel == -1)
+    {
+        result->message = "Failed to rename your file";
+        result->field = false; 
+        return *result; 
+    }
+    else
+    {
+        result->message = "File renamed successfully";
+        result->field = true; 
+        return *result; 
+
+    }
+
 
 }
 
 Message &FileManager::CopyFile(const std::string &fileName, const std::string &newPath) {
 
+    char buff;
     Message *result = new Message();
     std::string cpyfile = this->currentDir + "/" + fileName;
     const char *cpyfilename = cpyfile.c_str();
@@ -131,35 +157,29 @@ Message &FileManager::CopyFile(const std::string &fileName, const std::string &n
         return *result;
     }
 
-    std::string pstfile = newPath;
+    std::string pstfile = newPath + "/"+ fileName;
     const char *pstfilename = pstfile.c_str();
 
-    int file2 = open(pstfilename, O_TRUNC); 
+    int file2 = open(pstfilename, O_WRONLY | O_CREAT,
+				  S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); 
     if(file2 == -1)
     {
-        file2 = open(pstfilename, O_WRONLY | O_CREAT, S_IRUSR); 
-        if(file2 == -1)
-        {
-           result->message = "Failed to copy";
-           result->field = false;
-           return *result;
-           
-        }
-        else
-        {
-            int n;
-            char ch;
-            while ((n=read(file1, &ch, 1))!=-1)
-            write(file2,&ch,1);
-            result->message = "File copied";
-            result->field = true;
-            return *result;
-            close(file1);
-            close(file2);
- 
-        }
-        
+        result->message = "failed to copy file in that directory";
+        result->field = false;
+        return *result;
     }
+    else{
+        while(read(file1,&buff,1))
+        {
+            write(file2, &buff,1);
+        }
+        result->message = "File copied";
+        result->field = true;
+        return *result;
+        close(file1);
+	    close(file2);
+    }
+
 
 
 }
