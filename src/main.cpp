@@ -39,6 +39,8 @@ int main(int argc, char **argv) {
             ui.SListAllElements(arguments[0]);
         }else if(arguments[1] == "-s"){
             ui.SGetInfo(arguments[2]);
+        }else{
+            ui.InvalidArg();
         }
 
 

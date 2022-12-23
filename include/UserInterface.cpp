@@ -130,3 +130,17 @@ void UserInterface::SGetInfo(const std::string &filename) {
     }
 }
 
+void UserInterface::InvalidArg() {
+    fmt::print(fg(fmt::color::red),"Invalid Argument \n");
+    fmt::print("| Arguments | Description              |             Input              |\n"
+               "|-----------|---------------------------|:------------------------------:|\n"
+               "| -n        | Makes A New File          |            filename            |\n"
+               "| -nd       | Makes A New Folder        |           foldername           |\n"
+               "| -l        | List All Element          |              none              |\n"
+               "| -r        | Delete A File             |            filename            |\n"
+               "| -rd       | Delete A Directory        |           foldername           |\n"
+               "| -s        | Details of The File       |            filename            |\n"
+               "| -e        | Edit The Filename         |  old filename , new filename   |\n"
+               "| -cy       | Copy a File               |    filename, New Directory     |\n ");
+}
+

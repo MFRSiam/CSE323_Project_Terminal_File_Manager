@@ -23,6 +23,7 @@ public:
     void SCreateNewFolder(const std::string &foldername);
     void SListAllElements(const std::string &path);
     void SGetInfo(const std::string &filename);
+    void InvalidArg();
 private:
     bool takeInputs(std::string &input);
     std::string Display;
