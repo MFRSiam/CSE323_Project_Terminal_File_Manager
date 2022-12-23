@@ -25,8 +25,6 @@ Some Features Are,
 | -l        | List All Element                                     |              none              |
 | -r        | Delete A File                                        |            filename            |
 | -rd       | Delete A Directory                                   |           foldername           |
-| -o        | Opens The File                                       |            filename            |
 | -s        | Details of The File                                  |            filename            |
 | -e        | Edit The Filename                                    |  old filename , new filename   |
-| -ed       | Edit The Foldername                                  | old foldername, new foldername |
-| -cy       | Copy a File                                          | filename, New Directory        | 
+| -cy       | Copy a File                                          |    filename, New Directory     | 

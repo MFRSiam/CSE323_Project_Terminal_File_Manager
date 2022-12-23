@@ -23,17 +23,25 @@
 struct Message{
     std::string message;
     bool field;
-    Message(){
-        this->message = "";
-        field = false;
+    Message():field(false){
+
     }
 };
 
 struct Info{
-    std::string Name;
-    std::string Type;
-    int size;
-    std::string last_modified;
+    bool ReadMode;
+    bool WriteMode;
+    bool ExecuteMode;
+    size_t FileSize;
+    std::string CreatedOn;
+    std::string ModifiedOn;
+    bool GettingInfoSuccess;
+    bool Activated;
+    Info(): ReadMode(false),WriteMode(false),ExecuteMode(false),FileSize(0),GettingInfoSuccess(false),
+        Activated(false),CreatedOn("NULL"),ModifiedOn("NULL")
+    {
+
+    }
 };
 
 class FileManager final {
@@ -41,7 +49,7 @@ public:
     FileManager();
     explicit FileManager(const std::string& path);
     ~FileManager() = default;
-    std::string setWorkingDir(const std::string &dir);
+    void setWorkingDir(const std::string &dir);
 
     // Functions
     /*!
@@ -57,7 +65,7 @@ public:
 
     std::vector<std::string> &ListAll();
 
-    std::vector<Message> &GetProperties(const std::string &filename);
+    Info &GetProperties(const std::string &filename);
 
 
     std::string getPath() const;

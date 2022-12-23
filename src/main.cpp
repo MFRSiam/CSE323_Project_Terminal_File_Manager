@@ -27,11 +27,20 @@ int main(int argc, char **argv) {
             ui.SCreateNewFolder(arguments[2]);
         }
         else if(arguments[1] == "-cy"){
-            ui.uicopyfile(arguments[2], arguments[3]);
+            ui.SCopyfile(arguments[2], arguments[3]);
         }
         else if(arguments[1] == "-e"){
-            ui.uiEditAFile(arguments[2], arguments[3]);
+            ui.SEditAFile(arguments[2], arguments[3]);
+        }else if(arguments[1] == "-r"){
+            ui.SDeleteAFile(arguments[2]);
+        }else if(arguments[1] == "-rd"){
+            ui.SDeleteAFolder(arguments[2]);
+        }else if(arguments[1] == "-l"){
+            ui.SListAllElements(arguments[0]);
+        }else if(arguments[1] == "-s"){
+            ui.SGetInfo(arguments[2]);
         }
+
 
     }
 

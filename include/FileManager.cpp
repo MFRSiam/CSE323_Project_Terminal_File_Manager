@@ -22,12 +22,12 @@ FileManager::FileManager() {
 }
 
 FileManager::FileManager(const std::string& path) {
-
+    this->currentDir = path;
 }
 
 
-std::string FileManager::setWorkingDir(const std::string &dir) {
-
+void FileManager::setWorkingDir(const std::string &dir) {
+    this->currentDir = dir;
 }
 
 Message &FileManager::CreateANewFile(const std::string &filename) {
@@ -82,7 +82,7 @@ Message &FileManager::CreateANewFolder(const std::string &foldername) {
 Message &FileManager::DeleteAFile(const std::string &filename) {
     int status;
     std::string p_name = this->currentDir + "/" + filename;
-    fgets((char*)p_name.c_str(),(int)p_name.length(),stdin);
+    //fgets((char*)p_name.c_str(),(int)p_name.length(),stdin);
     status = remove(p_name.c_str());
     Message *a1 = new Message();
     if( status == 0 ){
@@ -102,7 +102,7 @@ Message &FileManager::DeleteAFolder(const std::string &foldername) {
     Message *ret = new Message();
     std::string f_name = this->currentDir + "/" + foldername;
     int kl = nftw(f_name.c_str(), unlink_cb, 64, FTW_DEPTH | FTW_PHYS);
-    if(kl > 0){
+    if(kl == 0){
         ret->message = "Folder Removed Successfully";
         ret->field = true;
     }else if(kl < 0){
@@ -191,10 +191,6 @@ std::vector<std::string> &FileManager::ListAll() {
 
 
 
-std::vector<Message> &FileManager::GetProperties(const std::string &filename) {
-
-}
-
 void FileManager::update() {
     DIR *dir;
     struct dirent *ent;
@@ -227,4 +223,35 @@ void FileManager::setCurrentDir() {
 
 std::string FileManager::getPath() const {
     return this->currentDir;
+}
+
+Info &FileManager::GetProperties(const std::string &filename) {
+    struct stat stats;
+    Info *ret = new Info();
+    std::string path = this->currentDir + "/" + filename;
+    if (stat(path.c_str(), &stats) == 0)
+    {
+        ret->GettingInfoSuccess = true;
+        ret->Activated = true;
+        if (stats.st_mode & R_OK)
+            ret->ReadMode = true;
+        if (stats.st_mode & W_OK)
+            ret->WriteMode = true;
+        if (stats.st_mode & X_OK)
+            ret->ExecuteMode = true;
+        ret->FileSize = stats.st_size;
+
+        struct tm dt = *(gmtime(&stats.st_ctime));
+        ret->CreatedOn = std::to_string(dt.tm_mday) + " " + std::to_string(dt.tm_mon) + " " +
+                std::to_string(dt.tm_year + 1900) + " " + std::to_string(dt.tm_hour) + " " +
+                std::to_string(dt.tm_min) + " " + std::to_string(dt.tm_sec);
+
+        dt = *(gmtime(&stats.st_mtime));
+        ret->ModifiedOn = std::to_string(dt.tm_mday) + " " + std::to_string(dt.tm_mon) + " " +
+                         std::to_string(dt.tm_year + 1900) + " " + std::to_string(dt.tm_hour) + " " +
+                         std::to_string(dt.tm_min) + " " + std::to_string(dt.tm_sec);
+    }else {
+        ret->GettingInfoSuccess = false;
+    }
+    return *ret;
 }

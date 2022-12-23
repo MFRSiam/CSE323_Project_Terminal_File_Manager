@@ -15,14 +15,14 @@ public:
     UserInterface(FileManager &x);
     ~UserInterface() = default;
 
-    void SCreateANewFile(const std::string filename);
-    void uicopyfile(const std::string &fileName, const std::string &newPath);
-    void uiEditAFile(const std::string &oldFilename, const std::string& newFilename);
-    void SDeleteAFile(const std::string deletefile);
-    void SDeleteAFolder(const std::string deletefolder);
-
-    void SCreateNewFolder(const std::string foldername);
-
+    void SCreateANewFile(const std::string &filename);
+    void SCopyfile(const std::string &fileName, const std::string &newPath);
+    void SEditAFile(const std::string &oldFilename, const std::string& newFilename);
+    void SDeleteAFile(const std::string &deletefile);
+    void SDeleteAFolder(const std::string &deletefolder);
+    void SCreateNewFolder(const std::string &foldername);
+    void SListAllElements(const std::string &path);
+    void SGetInfo(const std::string &filename);
 private:
     bool takeInputs(std::string &input);
     std::string Display;

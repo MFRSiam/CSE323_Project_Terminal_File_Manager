@@ -9,7 +9,7 @@ UserInterface::UserInterface(FileManager &x) :status(true) {
     mainFM->update();
 }
 
-void UserInterface::SCreateANewFile(const std::string filename) {
+void UserInterface::SCreateANewFile(const std::string &filename) {
     Message ret = mainFM->CreateANewFile(filename);
     if(ret.field){
         fmt::print( fg(fmt::color::green), "Message: {}\n", ret.message);
@@ -22,7 +22,7 @@ void UserInterface::SCreateANewFile(const std::string filename) {
     }
 }
 
-void UserInterface::SCreateNewFolder(const std::string foldername) {
+void UserInterface::SCreateNewFolder(const std::string &foldername) {
     Message ret = mainFM->CreateANewFolder(foldername);
     if(ret.field){
         fmt::print(fg(fmt::color::green),"Message: {}\n",ret.message);
@@ -47,7 +47,7 @@ bool UserInterface::takeInputs(std::string &input) {
     }
 }
 
-void UserInterface::uicopyfile(const std::string &fileName, const std::string &newPath)
+void UserInterface::SCopyfile(const std::string &fileName, const std::string &newPath)
 {
     Message ret = mainFM->CopyFile(fileName, newPath); 
     if(ret.field){
@@ -57,7 +57,7 @@ void UserInterface::uicopyfile(const std::string &fileName, const std::string &n
     }
 }
 
-void UserInterface::uiEditAFile(const std::string &oldFilename, const std::string& newFilename)
+void UserInterface::SEditAFile(const std::string &oldFilename, const std::string& newFilename)
 {
 
    Message ret = mainFM->EditAFile(oldFilename, newFilename); 
@@ -68,12 +68,12 @@ void UserInterface::uiEditAFile(const std::string &oldFilename, const std::strin
     }
 }
 
-void UserInterface::SDeleteAFile(const std::string deletefile) {
+void UserInterface::SDeleteAFile(const std::string &deletefile) {
     Message ret = mainFM->DeleteAFile(deletefile);
     if(ret.field){
-        fmt::print(fg(fmt::color::red),"Message: {}\r",ret.message);
+        fmt::print(fg(fmt::color::green),"Message: {}\n",ret.message);
     }else{
-        fmt::print(fg(fmt::color::blue),"Message: {}\r",ret.message);
+        fmt::print(fg(fmt::color::red),"Message: {}\n",ret.message);
         std::string filename;
         if(takeInputs(filename)){
             this->SDeleteAFile(filename);
@@ -81,16 +81,49 @@ void UserInterface::SDeleteAFile(const std::string deletefile) {
     }
 }
 
-void UserInterface::SDeleteAFolder(const std::string deletefolder) {
+void UserInterface::SDeleteAFolder(const std::string &deletefolder) {
     Message ret = mainFM->DeleteAFolder(deletefolder);
     if(ret.field){
-        fmt::print(fg(fmt::color::red),"Message: {}\rd",ret.message);
+        fmt::print(fg(fmt::color::green),"Message: {}\n",ret.message);
     }else{
-        fmt::print(fg(fmt::color::green),"Message: {}\rd",ret.message);
+        fmt::print(fg(fmt::color::red),"Message: {}\n",ret.message);
         std::string foldername;
         if(takeInputs(foldername)){
             this->SDeleteAFolder(foldername);
         }
+    }
+}
+
+void UserInterface::SListAllElements(const std::string &path) {
+    int counter = 1;
+    fmt::print(fg(fmt::color::yellow), "PATH : {}\n", path);
+    fmt::print(fg(fmt::color::yellow_green), "Contains: ");
+
+    std::vector<std::string> &r = this->mainFM->ListAll();
+    for(auto x : r){
+        fmt::print(fg(fmt::color::green_yellow),"{}. {} \n",counter,x);
+        counter++;
+    }
+}
+
+void UserInterface::SGetInfo(const std::string &filename) {
+    Info x = this->mainFM->GetProperties(filename);
+    if(x.GettingInfoSuccess){
+        if(x.ReadMode){
+            fmt::print(fg(fmt::color::green),"READ ");
+        }
+        if(x.WriteMode){
+            fmt::print(fg(fmt::color::light_coral),"WRITE ");
+        }
+        if(x.ExecuteMode){
+            fmt::print(fg(fmt::color::rebecca_purple),"EXECUTABLE ");
+        }
+        fmt::print("\n");
+        fmt::print(fg(fmt::color::light_blue),"File Size: {} bytes\n",x.FileSize);
+        fmt::print(fg(fmt::color::light_blue),"Created On: {}\n", x.CreatedOn);
+        fmt::print(fg(fmt::color::light_blue),"Modified On {}\n", x.ModifiedOn);
+    }else{
+        fmt::print(fg(fmt::color::red),"Failed To Retrive Info\n");
     }
 }
 
