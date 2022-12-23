@@ -109,6 +109,9 @@ void UserInterface::SListAllElements(const std::string &path) {
 void UserInterface::SGetInfo(const std::string &filename) {
     Info x = this->mainFM->GetProperties(filename);
     if(x.GettingInfoSuccess){
+        if(x.IsDir){
+            fmt::print(fg(fmt::color::light_sky_blue),"This is a Folder\n");
+        }
         if(x.ReadMode){
             fmt::print(fg(fmt::color::green),"READ ");
         }
@@ -116,7 +119,7 @@ void UserInterface::SGetInfo(const std::string &filename) {
             fmt::print(fg(fmt::color::light_coral),"WRITE ");
         }
         if(x.ExecuteMode){
-            fmt::print(fg(fmt::color::rebecca_purple),"EXECUTABLE ");
+            fmt::print(fg(fmt::color::light_pink),"EXECUTABLE ");
         }
         fmt::print("\n");
         fmt::print(fg(fmt::color::light_blue),"File Size: {} bytes\n",x.FileSize);

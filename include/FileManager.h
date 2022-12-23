@@ -32,13 +32,14 @@ struct Info{
     bool ReadMode;
     bool WriteMode;
     bool ExecuteMode;
+    bool IsDir;
     size_t FileSize;
     std::string CreatedOn;
     std::string ModifiedOn;
     bool GettingInfoSuccess;
     bool Activated;
     Info(): ReadMode(false),WriteMode(false),ExecuteMode(false),FileSize(0),GettingInfoSuccess(false),
-        Activated(false),CreatedOn("NULL"),ModifiedOn("NULL")
+        Activated(false),CreatedOn("NULL"),ModifiedOn("NULL"),IsDir(false)
     {
 
     }

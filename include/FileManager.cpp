@@ -229,8 +229,12 @@ Info &FileManager::GetProperties(const std::string &filename) {
     struct stat stats;
     Info *ret = new Info();
     std::string path = this->currentDir + "/" + filename;
+
     if (stat(path.c_str(), &stats) == 0)
     {
+        if(S_ISREG(stats.st_mode) == 0){
+            ret->IsDir = true;
+        }
         ret->GettingInfoSuccess = true;
         ret->Activated = true;
         if (stats.st_mode & R_OK)
