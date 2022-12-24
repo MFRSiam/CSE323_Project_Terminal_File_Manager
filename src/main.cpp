@@ -22,9 +22,17 @@ int main(int argc, char **argv) {
             arguments[i] = argv[i];
         }
         if(arguments[1] == "-n"){
-            ui.SCreateANewFile(arguments[2]);
+            if(arguments[2].length() < 1){
+                ui.InvalidArg();
+            }else{
+                ui.SCreateANewFile(arguments[2]);
+            }
         }else if(arguments[1] == "-nd"){
-            ui.SCreateNewFolder(arguments[2]);
+            if(arguments[2].length() < 1){
+                ui.InvalidArg();
+            }else{
+                ui.SCreateNewFolder(arguments[2]);
+            }
         }
         else if(arguments[1] == "-cy"){
             ui.SCopyfile(arguments[2], arguments[3]);
